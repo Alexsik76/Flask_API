@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+    {% from 'bootstrap/utils.html' import render_icon %}
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th class=text-left style="position: sticky; top: 50px">
+                {% set icon, order = ('sort-down', 'ASC') if reversed else ('sort-up-alt', 'DESC') %}
+                <a class="text-light" href="{{ url_for('main.report') }}?order={{ order }}"
+                data-toggle="tooltip" title="Sort by {{ order }}">
+                    {{ render_icon(icon) }}
+                </a>
+            </th>
+            {% for item in head %}
+                <th class=text-left style="position: sticky; top: 50px">{{ item }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for racer in data %}
+            <tr {{ 'class=table-secondary' if racer['Position'] > 15 else '' }}>
+                <td></td>
+                {% for item in racer.values() %}
+                    <td>{{ item }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
