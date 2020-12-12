@@ -10,36 +10,36 @@
         <title>Monaco Racing</title>
     {% endblock %}
     <link rel="icon" type='image/x-icon' href="{{ url_for('static', filename='image/favicon.png') }}"/>
-{% from 'bootstrap/nav.html' import render_nav_item %}
-{% from 'bootstrap/utils.html' import render_icon, render_messages %}
+    {% from 'bootstrap/nav.html' import render_nav_item %}
+    {% from 'bootstrap/utils.html' import render_icon, render_messages %}
 </head>
 <body style="padding-top: 50px">
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-light">
     <div class="navbar-nav mr-auto">
+        {{ render_nav_item('main.index', 'Home') }}
         {{ render_nav_item('main.report', 'Report') }}
-        {{ render_nav_item('main.drivers', 'Drivers  ') }}
-        <div class="nav-item dropdown">
-       <span class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
-             aria-expanded="false" title="API's">
-         API
-        </span>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="{{ url_for('api.apireport') }}">JSON</a>
-                <a class="dropdown-item" href="{{ url_for('api.apireport') }}?format=xml">XML</a>
-                <a class="dropdown-item" href="{{ url_for('main.get_docs') }}">Swagger</a>
-                <a class="dropdown-item" href="{{ url_for('main.included_swagger') }}">Swagger included </a>
+        {{ render_nav_item('main.drivers', 'Drivers') }}
+        <div class="nav-item dropdown btn-group">
+            {{ render_nav_item('main.included_swagger', 'API') }}
+            <span type="button" class="nav-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+            </span>
+            <div class="dropdown-menu bg-dark text-light">
+                <span class="dropdown-item bg-dark">{{ render_nav_item('api.apireport', 'JSON') }}</span>
+                <span class="dropdown-item bg-dark">{{ render_nav_item('api.apireport', 'XML', format='XML') }}</span>
             </div>
         </div>
     </div>
-    <div class="navbar-nav mr-4" aria-haspopup="true" aria-expanded="false" title="Site map">
-        {{ render_nav_item('main.site_map', render_icon('diagram-3')) }}
+    <div class="navbar-nav ml-auto" title="Site map">
+        {{ render_nav_item('main.site_map', render_icon('diagram-3', size='1.2em')) }}
     </div>
 </nav>
-{{ render_messages() }}
-<main role="main" class="container my-lg-5 pb-5">
-<div class="jumbotron">
-    {% block content %}{% endblock %}
-</div>
+<div class="alert">{{ render_messages() }}</div>
+{% set icon, order = ('sort-down', 'ASC') if reversed else ('sort-up-alt', 'DESC') %}
+<main>
+    <div class="jumbotron container ">
+        {% block content %}{% endblock %}
+    </div>
 </main>
 <nav class="navbar navbar-expand-md navbar-light fixed-bottom bg-light">
     <span class="navbar-text">

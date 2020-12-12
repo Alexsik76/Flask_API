@@ -1,24 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
     <table class="table table-hover">
-        <thead class="thead-dark">
+        <thead class="thead-dark class=text-center position-sticky" style="top: 5%">
         <tr>
-            <th class=text-left style="position: sticky; top: 50px">
-                {% set icon, order = ('sort-down', 'ASC') if reversed else ('sort-up-alt', 'DESC') %}
+            <th>
                 <a class="text-light" href="{{ url_for('main.report') }}?order={{ order }}"
-                data-toggle="tooltip" title="Sort by {{ order }}">
-                    {{ render_icon(icon) }}
+                   data-toggle="tooltip" title="Sort by {{ order }}">
+                   {{ render_icon(icon) }}
                 </a>
+                {{ head[0] }}
             </th>
-            {% for item in head %}
-                <th class=text-left style="position: sticky; top: 50px">{{ item }}</th>
+            {% for item in head[1:] %}
+                <th>{{ item }}</th>
             {% endfor %}
         </tr>
         </thead>
         <tbody>
         {% for racer in data %}
             <tr {{ 'class=table-secondary' if racer['Position'] > 15 else '' }}>
-                <td></td>
                 {% for item in racer.values() %}
                     <td>{{ item }}</td>
                 {% endfor %}

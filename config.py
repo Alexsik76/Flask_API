@@ -15,8 +15,8 @@ class Config(object):
     FILE_NAMES = ('abbreviations.txt', 'start.log', 'end.log')
     FIELDS = ('Position', 'Abbreviation', 'Name', 'Team', 'Start time', 'Finish time', 'Race time')
     BOOTSTRAP_BOOTSWATCH_THEME = 'cosmo'
-    BOOTSTRAP_ICON_SIZE = '1.5em'
-    BOOTSTRAP_ICON_COLOR = 'light'
+    # BOOTSTRAP_ICON_SIZE = '1.5em'
+    # BOOTSTRAP_ICON_COLOR = 'light'
 
 
 class DevelopmentConfig(Config):
