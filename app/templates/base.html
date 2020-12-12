@@ -37,7 +37,9 @@
 </nav>
 {{ render_messages() }}
 <main role="main" class="container my-lg-5 pb-5">
+<div class="jumbotron">
     {% block content %}{% endblock %}
+</div>
 </main>
 <nav class="navbar navbar-expand-md navbar-light fixed-bottom bg-light">
     <span class="navbar-text">
