@@ -1,4 +1,4 @@
-from os import path
+from os import path, getcwd
 from dotenv import load_dotenv
 
 basedir = path.abspath(path.dirname(__file__))
@@ -17,6 +17,11 @@ class Config(object):
     BOOTSTRAP_BOOTSWATCH_THEME = 'cosmo'
     # BOOTSTRAP_ICON_SIZE = '1.5em'
     # BOOTSTRAP_ICON_COLOR = 'light'
+    SWAGGER = {'title': 'REST API report of Monaco 2018 Racing',
+               'uiversion': 3,
+               'openapi': '3.0.2',
+               'version': '0.0.3'
+               }
 
 
 class DevelopmentConfig(Config):

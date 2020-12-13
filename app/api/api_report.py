@@ -5,6 +5,10 @@ from flask_restful import Resource, reqparse
 
 class ApiReport(Resource):
     def get(self):
+        """
+        file: ./docs/spec.yml
+        """
+
         data = current_app.extensions.get('table').report
         if self.get_argument().lower() == 'xml':
             response = make_response(dicttoxml(data))

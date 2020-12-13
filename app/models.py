@@ -16,11 +16,11 @@ class Table:
     def init_app(self, app) -> None:
         """Initialize this class with the given :class:`flask.Flask` instance.
 
-                :param app: the Flask application or blueprint object
-                :type app: flask.Flask
+        :param app: the Flask application or blueprint object
+        :type app: flask.app.Flask
 
-                Examples::
-                    table.init_app(app)
+        Examples::
+            table.init_app(app)
         """
         with app.app_context():
             self.path = self.get_path()

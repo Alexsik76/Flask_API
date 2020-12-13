@@ -1,4 +1,4 @@
-from flask import render_template, request, current_app, abort, url_for, flash
+from flask import render_template, request, current_app, abort, url_for, flash, redirect
 import os
 from app.main import bp
 
@@ -15,6 +15,11 @@ def flash_content(app, is_desc) -> tuple:
     not_founded = ('Application did not found needed data files.', 'danger')
     return founded if app.extensions.get('table').report else not_founded
 
+def html_from_readme():
+    path_to_file = os.path.abspath(os.path.join(__file__, '../../../') + 'README.md')
+    with open(path_to_file, encoding='utf8') as file:
+        readme_html = file.read()
+    return readme_html
 
 @bp.route('/')
 def index():
@@ -23,20 +28,8 @@ def index():
         flash(f'Data files founded in "{path}". Application ready to work.', 'primary')
     else:
         flash('Application did not found needed data files.', 'danger')
-    path_to_file = os.path.abspath(os.path.join(__file__, '../../../') + 'README.md')
-    with open(path_to_file, encoding='utf8') as file:
-        readme = file.read()
-    return render_template('index.html', md_text=readme, error='Hello!')
 
-
-@bp.route('/api/docs')
-def get_docs():
-    return render_template('swaggerui.html')
-
-
-@bp.route('/api/docs/include')
-def included_swagger():
-    return render_template('swagger.html', data='swaggerui.html')
+    return render_template('index.html', md_text=html_from_readme())
 
 
 @bp.route('/report/', methods=['GET'])
@@ -68,7 +61,8 @@ def drivers():
 
 @bp.app_errorhandler(404)
 def page_not_found(error):
-    return render_template('index.html', error=error)
+    flash(error, 'danger')
+    return render_template('index.html', md_text=html_from_readme())
 
 
 def has_no_empty_params(rule) -> bool:
