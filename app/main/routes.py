@@ -3,7 +3,6 @@ import os
 from app.main import bp
 
 
-
 def flash_content(app, is_desc) -> tuple:
     """Forms params of the flash function.
 
@@ -19,12 +18,15 @@ def flash_content(app, is_desc) -> tuple:
 
 @bp.route('/')
 def index():
-    if not current_app.extensions.get('table').report:
+    path = current_app.extensions.get('table').path
+    if path:
+        flash(f'Data files founded in "{path}". Application ready to work.', 'primary')
+    else:
         flash('Application did not found needed data files.', 'danger')
     path_to_file = os.path.abspath(os.path.join(__file__, '../../../') + 'README.md')
     with open(path_to_file, encoding='utf8') as file:
         readme = file.read()
-    return render_template('not_found.html', md_text=readme, error='Hello!')
+    return render_template('index.html', md_text=readme, error='Hello!')
 
 
 @bp.route('/api/docs')
@@ -66,7 +68,7 @@ def drivers():
 
 @bp.app_errorhandler(404)
 def page_not_found(error):
-    return render_template('not_found.html', error=error)
+    return render_template('index.html', error=error)
 
 
 def has_no_empty_params(rule) -> bool:

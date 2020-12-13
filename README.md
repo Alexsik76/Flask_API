@@ -23,8 +23,8 @@ In general was improved User-Friendliness of the app.
 ## Getting Started
  
 This application is created with pipenv usage.
-Also file ```.env``` was added.
-This file contains variables ```FLASK_APP``` and ```FLASK_ENV```. 
+Also file `.env` was added.
+This file contains variables `FLASK_APP` and `FLASK_ENV`. 
 In normal conditions they do not need to be changed.
 More information of Shell Variables you can find 
 [here](https://flask.palletsprojects.com/en/1.1.x/tutorial/factory/).
@@ -32,25 +32,21 @@ More information of Shell Variables you can find
 So for the starters you need to launch pipenv:
 
 
-```pipenv install```
+`pipenv install`
 
-In my case I had an error with the package ```Flask_Misaka```. The solution was to install in the system ```python-dev``` package.
+> In my case I had an error with the package `Flask_Misaka`. The solution was to install in the system ```python-dev``` package.
 
 Next, activate the Pipenv shell:
 
-```pipenv shell```  
+`pipenv shell`  
 
 For the checking Shell Variables use:
 
-```
-printenv FLASK_APP
-```
+`printenv FLASK_APP`
 
 ## Usage
 
-```
-flask run
-```
+`flask run`
 
 Open the HTML link in the terminal to get the access to the program.
 On the HTML page you can use following addresses:
@@ -71,14 +67,13 @@ All routes available:
 
 ## Running the tests
 
-To run the tests you need to install ```develop``` packages:
-```
-pipenv install --dev
-```
+To run the tests you need to install `develop` packages:
+
+`pipenv install --dev`
 
 After that to run the tests you must write:
 
-```pytest```
+`pytest`
 
-```coverage run -m pytest```
+`coverage run -m pytest`
  
