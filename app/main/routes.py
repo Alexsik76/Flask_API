@@ -15,11 +15,13 @@ def flash_content(app, is_desc) -> tuple:
     not_founded = ('Application did not found needed data files.', 'danger')
     return founded if app.extensions.get('table').report else not_founded
 
+
 def html_from_readme():
     path_to_file = os.path.abspath(os.path.join(__file__, '../../../') + 'README.md')
     with open(path_to_file, encoding='utf8') as file:
         readme_html = file.read()
     return readme_html
+
 
 @bp.route('/')
 def index():
@@ -30,6 +32,11 @@ def index():
         flash('Application did not found needed data files.', 'danger')
 
     return render_template('index.html', md_text=html_from_readme())
+
+
+@bp.route('/apidocs1/')
+def flasgger_in():
+    return redirect(url_for('flasgger.apidocs'))
 
 
 @bp.route('/report/', methods=['GET'])

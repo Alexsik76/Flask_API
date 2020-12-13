@@ -33,6 +33,4 @@ def create_app(test_config=None):
 
     Markdown(app)
     swag.init_app(app)
-    print(dir(app.swag.config))
-    print(app.swag.config['specs'])
     return app

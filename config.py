@@ -1,4 +1,4 @@
-from os import path, getcwd
+from os import path
 from dotenv import load_dotenv
 
 basedir = path.abspath(path.dirname(__file__))
