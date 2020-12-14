@@ -1,6 +1,7 @@
 <div class='swagger-ui'>
     <div class="wrapper">
         <section class="clear">
+              {{ bootstrap.load_js() }}
             {{flasgger_config.footer_text | safe}}
             <span style="float: right;">
                 [Powered by <a target="_blank" href="https://github.com/rochacbruno/flasgger">Flasgger</a> {{ flasgger_version }}]
@@ -8,5 +9,5 @@
             </span>
         </section>
     </div>
-
+{% include 'footer.html' %}
 </div>

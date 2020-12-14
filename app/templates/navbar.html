@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark text-light">
+    <div class="navbar-nav mr-auto">
+        {{ render_nav_item('main.index', 'Home') }}
+        {{ render_nav_item('main.report', 'Report') }}
+        {{ render_nav_item('main.drivers', 'Drivers') }}
+        <div class="nav-item dropdown btn-group">
+            {{ render_nav_item('flasgger.apidocs', 'API') }}
+            <span type="button" class="nav-link dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+            </span>
+            <div class="dropdown-menu bg-dark text-light">
+                <span class="dropdown-item bg-dark">{{ render_nav_item('api.apireport', 'JSON') }}</span>
+                <span class="dropdown-item bg-dark">{{ render_nav_item('api.apireport', 'XML', format='XML') }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="navbar-nav ml-auto" title="Site map">
+        {{ render_nav_item('main.site_map', render_icon('diagram-3', size='1.2em')) }}
+    </div>
+</nav>

@@ -20,7 +20,8 @@ class Config(object):
     SWAGGER = {'title': 'REST API report of Monaco 2018 Racing',
                'uiversion': 3,
                'openapi': '3.0.2',
-               'version': '0.0.3'
+               'version': '0.0.3',
+               'hide_top_bar': True
                }
 
 

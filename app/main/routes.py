@@ -1,4 +1,4 @@
-from flask import render_template, request, current_app, abort, url_for, flash, redirect
+from flask import render_template, request, current_app, abort, url_for, flash
 import os
 from app.main import bp
 
@@ -32,11 +32,6 @@ def index():
         flash('Application did not found needed data files.', 'danger')
 
     return render_template('index.html', md_text=html_from_readme())
-
-
-@bp.route('/apidocs1/')
-def flasgger_in():
-    return redirect(url_for('flasgger.apidocs'))
 
 
 @bp.route('/report/', methods=['GET'])
