@@ -27,9 +27,11 @@ class Config(object):
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    TESTING = True
 
 
 class TestingConfig(Config):
+    DEBUG = False
     TESTING = True
 
 
