@@ -1,5 +1,5 @@
 from flask import Flask
-from config import app_config
+from config import app_config, create_swag_config
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
 from flasgger import Swagger
@@ -32,5 +32,7 @@ def create_app(test_config=None):
     app.register_blueprint(bp)
 
     Markdown(app)
+    with app.app_context():
+        app.config['SWAGGER'] = create_swag_config(app)
     swag.init_app(app)
     return app
