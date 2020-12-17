@@ -16,7 +16,11 @@ def flash_content(app, is_desc) -> tuple:
     return founded if app.extensions.get('table').report else not_founded
 
 
-def html_from_readme():
+def html_from_readme() -> str:
+    """ Read README.md file
+
+    :return: text from file
+    """
     path_to_file = os.path.abspath(os.path.join(__file__, '../../../') + 'README.md')
     with open(path_to_file, encoding='utf8') as file:
         readme_html = file.read()
