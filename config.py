@@ -10,20 +10,20 @@ load_dotenv(path.join(basedir, '.env'))
 
 
 def create_swag_config(app):
-    boots = app.jinja_env.globals['bootstrap']
-    print(boots)
-    with app.app_context():
-        head_text = Environment(loader=FileSystemLoader('app/templates')).get_template('head.html').render(globals(), bootstrap=boots)
-        top_text = Environment(loader=FileSystemLoader('app/templates')).get_template('navbar.html').render()
-        footer_text = Environment(loader=FileSystemLoader('app/templates')).get_template('footer.html').render()
+    # boots = app.jinja_env.globals['bootstrap']
+    # print(boots)
+    # with app.app_context():
+    #     head_text = Environment(loader=FileSystemLoader('app/templates')).get_template('head.html').render(globals(), bootstrap=boots)
+    #     top_text = Environment(loader=FileSystemLoader('app/templates')).get_template('navbar.html').render()
+    #     footer_text = Environment(loader=FileSystemLoader('app/templates')).get_template('footer.html').render()
     s_config = {'title': 'REST API report of Monaco 2018 Racing',
                 'uiversion': 3,
                 'openapi': '3.0.2',
                 'version': '0.0.3',
-                'hide_top_bar': True,
-                'footer_text': footer_text,
-                'top_text': top_text,
-                'head_text': head_text
+                'hide_top_bar': True
+                # 'footer_text': footer_text,
+                # 'top_text': 'bootstrap.load_css()',
+                # 'head_text': 'bootstrap.load_css()',
                 }
     return s_config
 

@@ -32,7 +32,6 @@ def create_app(test_config=None):
     app.register_blueprint(bp)
 
     Markdown(app)
-    with app.app_context():
-        app.config['SWAGGER'] = create_swag_config(app)
+    app.config['SWAGGER'] = create_swag_config(app)
     swag.init_app(app)
     return app
