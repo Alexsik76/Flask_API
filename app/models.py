@@ -6,9 +6,6 @@ from peewee import *
 from app import db_wrapper
 
 
-def get_race_time(start, finish):
-    return finish - start
-
 
 class Racer(db_wrapper.Model):
     position = IntegerField(null=True)
@@ -17,10 +14,11 @@ class Racer(db_wrapper.Model):
     team = CharField()
     start = DateTimeField()
     finish = DateTimeField()
-    race_time = TimestampField(null=True)
+    race_time = TimeField(null=True)
 
     def get_race_time(self):
-        return abs(self.finish - self.start)
+        time = abs(self.finish - self.start)
+        return time
 
     @classmethod
     def init_db(cls):

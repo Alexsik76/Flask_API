@@ -2,8 +2,7 @@ from peewee import *
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
-from app.models import Racer
-from playhouse.sqlite_ext import *
+
 
 
 # def get_db():

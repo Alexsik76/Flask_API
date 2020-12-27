@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, g
 from config import app_config, create_swag_config
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
@@ -27,19 +27,22 @@ def create_app(test_config=None):
         Racer.create_table()
         with app.app_context():
             Racer.init_db()
+            g.db = dtb
         for racer in Racer.select():
             racer.race_time = racer.get_race_time()
+            racer.save()
         for number, racer in enumerate(Racer.select().order_by(Racer.race_time), start=1):
             racer.position = number
-            print(racer.name, racer.start, racer.finish, racer.position, sep='=>')
+            racer.save()
+
     bootstrap.init_app(app)
-    from app.api import bp as api_bp
-    from app.api.api_report import ApiReport
-
-    my_api.add_resource(ApiReport, '/api/v1/report/')
-    my_api.init_app(api_bp)
-
-    app.register_blueprint(api_bp)
+    # from app.api import bp as api_bp
+    # from app.api.api_report import ApiReport
+    #
+    # my_api.add_resource(ApiReport, '/api/v1/report/')
+    # my_api.init_app(api_bp)
+    #
+    # app.register_blueprint(api_bp)
 
     from app.main import bp
     app.register_blueprint(bp)

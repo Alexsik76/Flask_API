@@ -1,6 +1,15 @@
-from flask import render_template, request, current_app, abort, url_for, flash
+from flask import render_template, request, current_app, abort, url_for, flash, g
 import os
 from app.main import bp
+from app.models import Racer
+from app import db_wrapper
+
+
+def get_db():
+    if 'db' not in g:
+        g.db = db_wrapper.database
+        print('Database is connected')
+    return g.db
 
 
 def flash_content(app, is_desc) -> tuple:
@@ -29,9 +38,13 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    path = current_app.extensions.get('table').path
-    if path:
-        flash(f'Data files founded in "{path}". Application ready to work.', 'primary')
+    with g.db:
+        for rac in Racer.select():
+            print(rac.name)
+        rows = len(Racer.select())
+
+    if rows:
+        flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
     else:
         flash('Application did not found needed data files.', 'danger')
 
