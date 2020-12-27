@@ -1,12 +1,12 @@
-# This option does not use classes and uses a minimum of functions.
-# Therefore, many Comprehensions are used.
 from datetime import datetime
 from dateutil.parser import parse
 import os
 from flask import current_app
+from app import db
+from peewee import *
 
 
-class Table:
+class RaceTable:
     def __init__(self, app=None):
         self.report = []
         self.path = None
@@ -24,7 +24,8 @@ class Table:
         """
         with app.app_context():
             self.path = self.get_path()
-            self.report = self.get_report() if self.path else []
+            if self.path:
+                self.report = self.get_report()
         if not hasattr(app, 'extensions'):
             app.extensions = {}
         app.extensions['table'] = self
