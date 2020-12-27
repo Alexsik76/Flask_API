@@ -3,29 +3,16 @@ from config import app_config, create_swag_config
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
 from flasgger import Swagger
-from app.models import RaceTable
+
 from flaskext.markdown import Markdown
-from peewee import *
 from playhouse.flask_utils import FlaskDB
+
 
 bootstrap = Bootstrap()
 my_api = Api()
-table = RaceTable()
 swag = Swagger()
 db_wrapper = FlaskDB()
 
-
-class Racer(db_wrapper.Model):
-    position = IntegerField()
-    abr = CharField()
-    name = CharField()
-    team = CharField()
-    start = TimeField(formats='%H:%M:%S.%f')
-    finish = TimeField(formats='%H:%M:%S.%f')
-    race_time = TimestampField(resolution=3, null=True)
-
-    def get_race_time(self):
-        self.race_time = self.finish - self.start
 
 def create_app(test_config=None):
     app = Flask(__name__)
@@ -33,24 +20,18 @@ def create_app(test_config=None):
         app.config.from_object(app_config['testing'])
     else:
         app.config.from_object(app_config['develop'])
-    table.init_app(app)
     db_wrapper.init_app(app)
     dtb = db_wrapper.database
+    from app.models import Racer
     with dtb:
-        print('DB is closed: ', dtb.is_closed())
         Racer.create_table()
-        print(Racer.table_exists())
-        racer = table.report[0]
-        print(racer['Race time'], type(racer['Race time']))
-        Racer.create(abr=racer['Abbreviation'],
-                     position=racer['Position'],
-                     name=racer['Name'],
-                     team=racer['Team'],
-                     start=racer['Start time'],
-                     finish=racer['Finish time'])
-        print(dtb.select().columns())
-    #     from app import db
-    #     db.init_db(app, dtb)
+        with app.app_context():
+            Racer.init_db()
+        for racer in Racer.select():
+            racer.race_time = racer.get_race_time()
+        for number, racer in enumerate(Racer.select().order_by(Racer.race_time), start=1):
+            racer.position = number
+            print(racer.name, racer.start, racer.finish, racer.position, sep='=>')
     bootstrap.init_app(app)
     from app.api import bp as api_bp
     from app.api.api_report import ApiReport

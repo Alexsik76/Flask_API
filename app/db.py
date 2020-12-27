@@ -2,7 +2,7 @@ from peewee import *
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
-from app import Racer
+from app.models import Racer
 from playhouse.sqlite_ext import *
 
 
@@ -18,22 +18,8 @@ from playhouse.sqlite_ext import *
 #         db.close()
 
 
-def init_db(app, dtb):
-    # print(dir(db_wrapper))
-    # with db_wrapper.database:
-    #     print(db_wrapper.database)
-    for racer in app.extensions['table'].report:
-        # print(dir(app.Racer))
-        print(dtb.is_closed())
-        print(dtb.obj.__doc__)
-        Racer.create(position=racer['Position'],
-                     abr=racer['Abbreviation'],
-                     name=racer['Name'],
-                     team=racer['Team'],
-                     start=racer['Start time'],
-                     finish=racer['Finish time'],
-                     race_time=racer['Race time'])
 
+        # rc.get_race_time()
 # @click.command('init-db')
 # @with_appcontext
 # def init_db_command():
