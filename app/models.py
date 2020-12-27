@@ -2,8 +2,6 @@ from datetime import datetime
 from dateutil.parser import parse
 import os
 from flask import current_app
-from app import db
-from peewee import *
 
 
 class RaceTable:

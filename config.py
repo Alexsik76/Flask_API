@@ -29,6 +29,7 @@ class Config(object):
     BOOTSTRAP_BOOTSWATCH_THEME = 'cosmo'
     # BOOTSTRAP_ICON_SIZE = '1.5em'
     # BOOTSTRAP_ICON_COLOR = 'light'
+    DATABASE = 'sqlite:///:memory:'
 
 
 class DevelopmentConfig(Config):
