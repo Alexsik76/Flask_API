@@ -1,5 +1,5 @@
 from flask import Flask, g
-from config import app_config, create_swag_config
+from config import app_config
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
 from flasgger import Swagger
@@ -20,20 +20,10 @@ def create_app(test_config=None):
         app.config.from_object(app_config['testing'])
     else:
         app.config.from_object(app_config['develop'])
+
     db_wrapper.init_app(app)
-    dtb = db_wrapper.database
-    from app.models import Racer
-    with dtb:
-        Racer.create_table()
-        with app.app_context():
-            Racer.init_db()
-            g.db = dtb
-        for racer in Racer.select():
-            racer.race_time = racer.get_race_time()
-            racer.save()
-        for number, racer in enumerate(Racer.select().order_by(Racer.race_time), start=1):
-            racer.position = number
-            racer.save()
+    from app.models import from_files_to_db
+    from_files_to_db(app)
 
     bootstrap.init_app(app)
     # from app.api import bp as api_bp
@@ -48,6 +38,5 @@ def create_app(test_config=None):
     app.register_blueprint(bp)
 
     Markdown(app)
-    app.config['SWAGGER'] = create_swag_config()
     swag.init_app(app)
     return app

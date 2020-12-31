@@ -5,11 +5,12 @@ from app.models import Racer
 from app import db_wrapper
 
 
-def get_db():
-    if 'db' not in g:
-        g.db = db_wrapper.database
-        print('Database is connected')
-    return g.db
+# def get_db(app):
+#     with app.app_context():
+#         if 'db' not in g:
+#             g.db = db_wrapper.database
+#             print('Database is connected')
+#     return g.db
 
 
 def flash_content(app, is_desc) -> tuple:

@@ -1,20 +1,8 @@
 from os import path
 from dotenv import load_dotenv
 
-
 basedir = path.abspath(path.dirname(__file__))
 load_dotenv(path.join(basedir, '.env'))
-
-
-def create_swag_config():
-    s_config = {'title': 'REST API report of Monaco 2018 Racing',
-                'uiversion': 3,
-                'openapi': '3.0.2',
-                'version': '0.0.3',
-                'hide_top_bar': True,
-                'favicon': "url_for('static', filename='image/favicon.png')"
-                }
-    return s_config
 
 
 class Config(object):
@@ -30,6 +18,13 @@ class Config(object):
     # BOOTSTRAP_ICON_SIZE = '1.5em'
     # BOOTSTRAP_ICON_COLOR = 'light'
     DATABASE = 'sqlite:///:memory:'
+    SWAGGER = {'title': 'REST API report of Monaco 2018 Racing',
+               'uiversion': 3,
+               'openapi': '3.0.2',
+               'version': '0.0.3',
+               'hide_top_bar': True,
+               'favicon': "url_for('static', filename='image/favicon.png')"
+               }
 
 
 class DevelopmentConfig(Config):

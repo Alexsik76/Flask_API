@@ -1,10 +1,8 @@
-from datetime import datetime
 from dateutil.parser import parse
 import os
-from flask import current_app
+from flask import current_app, g
 from peewee import *
 from app import db_wrapper
-
 
 
 class Racer(db_wrapper.Model):
@@ -89,3 +87,21 @@ class Racer(db_wrapper.Model):
         racers = [dict(zip(current_app.config.get('FIELDS'), (None, *cls.parsing_line(line))))
                   for line in source_racers]
         return racers
+
+
+def from_files_to_db(app):
+    with app.app_context():
+        dtb = db_wrapper.database
+        with dtb:
+            Racer.create_table()
+            Racer.init_db()
+            for racer in Racer.select():
+                racer.race_time = racer.get_race_time()
+                racer.save()
+            for number, racer in enumerate(Racer.select().order_by(Racer.race_time), start=1):
+                racer.position = number
+                racer.save()
+        print('Data stored to the DB')
+        if 'db' not in g:
+            g.db = db_wrapper.database
+            print('Database is connected')
