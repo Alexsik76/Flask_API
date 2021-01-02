@@ -1,8 +1,9 @@
 from dateutil.parser import parse
 import os
-from flask import current_app
+# from flask import current_app
 from peewee import *
 from app import db_wrapper
+from config import app_config
 
 
 class Racer(db_wrapper.Model):
@@ -19,9 +20,9 @@ class Racer(db_wrapper.Model):
         return time
 
 
-def init_db(app):
-
-    for racer in get_report(app):
+def init_db():
+    Racer.create_table()
+    for racer in get_report():
         Racer.create(abr=racer['Abbreviation'],
                      name=racer['Name'],
                      team=racer['Team'],
@@ -29,7 +30,8 @@ def init_db(app):
                      finish=racer['Finish time'])
 
 
-def get_report(app) -> list:
+def get_report() -> list:
+    needed_files = app_config.get('FILE_NAMES')
     """Creates a time-sorted list of drivers with all the necessary data.
 
     :return: A sorted by time list of dicts.
@@ -44,7 +46,6 @@ def get_report(app) -> list:
         :rtype: str
         """
         places = os.walk(os.path.abspath(os.path.join(__file__, "../..")))
-        needed_files = app.config.get('FILE_NAMES')
 
         def condition(files):
             return all(file in files for file in needed_files)
@@ -81,14 +82,15 @@ def get_report(app) -> list:
                 parse(start, fuzzy=True),
                 parse(finish, fuzzy=True))
 
-    source_racers = zip(*[read_file(file_name) for file_name in app.config.get('FILE_NAMES')])
-    racers = [dict(zip(app.config.get('FIELDS'), (None, *parsing_line(line))))
+    source_racers = zip(*[read_file(file_name) for file_name in needed_files])
+    racers = [dict(zip(app_config.get('FIELDS'), (None, *parsing_line(line))))
               for line in source_racers]
     return racers
 
 
-def from_files_to_db(app):
-    init_db(app)
+def from_files_to_db():
+
+    init_db()
 
     for racer in Racer.select():
         racer.race_time = racer.get_race_time()
@@ -101,3 +103,4 @@ def from_files_to_db(app):
         print(racer.name, racer.abr)
 
 
+from_files_to_db()

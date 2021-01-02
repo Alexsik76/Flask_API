@@ -36,14 +36,8 @@ def create_app(test_config=None):
     Markdown(app)
     swag.init_app(app)
     db_wrapper.init_app(app)
+    print(db_wrapper.database.get_tables())
 
-    @app.before_first_request
-    def fill_db():
-        with db_wrapper.database:
-            from app.models import Racer
-            Racer.create_table()
-            from app.models import from_files_to_db
-            from_files_to_db(app)
-            app.db = db_wrapper.database
-            print('before_first_request tables = ', app.db.get_tables())
     return app
+
+from app import models

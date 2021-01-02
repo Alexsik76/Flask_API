@@ -4,7 +4,7 @@ from app.main import bp
 from app import db_wrapper
 
 
-# @current_app.before_reqest
+# @current_app.before_request
 # def get_db():
 #     with current_app.app_context():
 #         db = db_wrapper.database
@@ -38,7 +38,8 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    print('3', current_app.db.get_tables())
+    db = db_wrapper.database
+    print('3', db.get_tables())
     with db_wrapper.database as db:
         print('1', db)
         tables = db.get_tables()
