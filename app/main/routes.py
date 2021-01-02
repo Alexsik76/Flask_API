@@ -2,6 +2,7 @@ from flask import render_template, request, current_app, abort, url_for, flash, 
 import os
 from app.main import bp
 from app import db_wrapper
+from app.models import Racer
 
 
 # @current_app.before_request
@@ -39,6 +40,8 @@ def html_from_readme() -> str:
 @bp.route('/')
 def index():
     db = db_wrapper.database
+    with db:
+        print(Racer.select())
     print('3', db.get_tables())
     with db_wrapper.database as db:
         print('1', db)

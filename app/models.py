@@ -19,6 +19,9 @@ class Racer(db_wrapper.Model):
         time = abs(self.finish - self.start)
         return time
 
+    def __repr__(self):
+        return f'<Racer {self.position, self.abr, self.name, self.race_time}>'
+
 
 def init_db():
     Racer.create_table()
@@ -31,7 +34,8 @@ def init_db():
 
 
 def get_report() -> list:
-    needed_files = app_config.get('FILE_NAMES')
+    needed_files = ('abbreviations.txt', 'start.log', 'end.log')
+    fields = ('Position', 'Abbreviation', 'Name', 'Team', 'Start time', 'Finish time', 'Race time')
     """Creates a time-sorted list of drivers with all the necessary data.
 
     :return: A sorted by time list of dicts.
@@ -81,9 +85,8 @@ def get_report() -> list:
                 team,
                 parse(start, fuzzy=True),
                 parse(finish, fuzzy=True))
-
     source_racers = zip(*[read_file(file_name) for file_name in needed_files])
-    racers = [dict(zip(app_config.get('FIELDS'), (None, *parsing_line(line))))
+    racers = [dict(zip(fields, (None, *parsing_line(line))))
               for line in source_racers]
     return racers
 
@@ -102,5 +105,5 @@ def from_files_to_db():
     for racer in Racer.select():
         print(racer.name, racer.abr)
 
-
-from_files_to_db()
+# with app_context
+# from_files_to_db()
