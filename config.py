@@ -18,6 +18,7 @@ class Config(object):
     # BOOTSTRAP_ICON_SIZE = '1.5em'
     # BOOTSTRAP_ICON_COLOR = 'light'
     DATABASE = 'sqlite:///:memory:'
+    # DATABASE = "sqlite:///app/db/my-database.db"
     SWAGGER = {'title': 'REST API report of Monaco 2018 Racing',
                'uiversion': 3,
                'openapi': '3.0.2',

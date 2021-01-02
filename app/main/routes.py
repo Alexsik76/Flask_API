@@ -1,17 +1,15 @@
 from flask import render_template, request, current_app, abort, url_for, flash, g
 import os
 from app.main import bp
-from app.models import Racer
 from app import db_wrapper
 
 
+# @current_app.before_reqest
+# def get_db():
+#     with current_app.app_context():
+#         db = db_wrapper.database
+#         print('Database is connected')
 
-# def get_db(app):
-#     with app.app_context():
-#         if 'db' not in g:
-#             g.db = db_wrapper.database
-#             print('Database is connected')
-#     return g.db
 
 
 def flash_content(app, is_desc) -> tuple:
@@ -40,11 +38,12 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    db = db_wrapper.database
-    print('1', db)
-    tables = db.get_tables()
-    print('1', tables)
-    text = f'tables = {tables}'
+    print('3', current_app.db.get_tables())
+    with db_wrapper.database as db:
+        print('1', db)
+        tables = db.get_tables()
+        print('1', tables)
+        text = f'tables = {tables}'
     # if rows:
     #     flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
     # else:

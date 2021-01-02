@@ -3,7 +3,6 @@ from config import app_config
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
 from flasgger import Swagger
-
 from flaskext.markdown import Markdown
 from playhouse.flask_utils import FlaskDB
 
@@ -21,9 +20,7 @@ def create_app(test_config=None):
     else:
         app.config.from_object(app_config['develop'])
 
-    db_wrapper.init_app(app)
-    from app.models import from_files_to_db
-    from_files_to_db(app)
+
     bootstrap.init_app(app)
     # from app.api import bp as api_bp
     # from app.api.api_report import ApiReport
@@ -38,4 +35,15 @@ def create_app(test_config=None):
 
     Markdown(app)
     swag.init_app(app)
+    db_wrapper.init_app(app)
+
+    @app.before_first_request
+    def fill_db():
+        with db_wrapper.database:
+            from app.models import Racer
+            Racer.create_table()
+            from app.models import from_files_to_db
+            from_files_to_db(app)
+            app.db = db_wrapper.database
+            print('before_first_request tables = ', app.db.get_tables())
     return app
