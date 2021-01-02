@@ -41,19 +41,14 @@ def html_from_readme() -> str:
 def index():
     db = db_wrapper.database
     with db:
-        print(Racer.select())
-    print('3', db.get_tables())
-    with db_wrapper.database as db:
-        print('1', db)
-        tables = db.get_tables()
-        print('1', tables)
-        text = f'tables = {tables}'
-    # if rows:
-    #     flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
-    # else:
-    #     flash('Application did not found needed data files.', 'danger')
+        select = Racer.select()
+        rows = f'tables = {len(select)}'
+    if rows:
+        flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
+    else:
+        flash('Application did not found needed data files.', 'danger')
 
-    return render_template('index.html', md_text=text)
+    return render_template('index.html', md_text=html_from_readme())
 
 
 @bp.route('/report/', methods=['GET'])

@@ -4,7 +4,8 @@ from app.models import Racer, from_files_to_db
 app = create_app()
 
 with app.app_context():
-    from_files_to_db()
+    if not db_wrapper.database.get_tables():
+        from_files_to_db()
 
 
 @app.shell_context_processor

@@ -17,8 +17,8 @@ class Config(object):
     BOOTSTRAP_BOOTSWATCH_THEME = 'cosmo'
     # BOOTSTRAP_ICON_SIZE = '1.5em'
     # BOOTSTRAP_ICON_COLOR = 'light'
-    DATABASE = 'sqlite:///:memory:'
-    # DATABASE = 'sqlite:///' + os.path.join(basedir, 'db/app.db')
+    # DATABASE = 'sqlite:///:memory:'
+    DATABASE = 'sqlite:///' + path.join(basedir, 'app.db')
     SWAGGER = {'title': 'REST API report of Monaco 2018 Racing',
                'uiversion': 3,
                'openapi': '3.0.2',
