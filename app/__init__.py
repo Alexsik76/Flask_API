@@ -24,7 +24,6 @@ def create_app(test_config=None):
     db_wrapper.init_app(app)
     from app.models import from_files_to_db
     from_files_to_db(app)
-
     bootstrap.init_app(app)
     # from app.api import bp as api_bp
     # from app.api.api_report import ApiReport

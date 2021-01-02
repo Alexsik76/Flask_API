@@ -67,7 +67,6 @@ class Racer(db_wrapper.Model):
         :return: A list of data.
         :rtype: tuple[str, str, str, str, str]
         """
-        print(line)
         titles, start, finish = line
         abr, name, team = titles.split('_')
         return (abr,
@@ -91,17 +90,14 @@ class Racer(db_wrapper.Model):
 
 def from_files_to_db(app):
     with app.app_context():
-        dtb = db_wrapper.database
-        with dtb:
-            Racer.create_table()
-            Racer.init_db()
-            for racer in Racer.select():
-                racer.race_time = racer.get_race_time()
-                racer.save()
-            for number, racer in enumerate(Racer.select().order_by(Racer.race_time), start=1):
-                racer.position = number
-                racer.save()
+        Racer.create_table()
+        Racer.init_db()
+        for racer in Racer.select():
+            racer.race_time = racer.get_race_time()
+            racer.save()
+        for number, racer in enumerate(Racer.select().order_by(Racer.race_time), start=1):
+            racer.position = number
+            racer.save()
         print('Data stored to the DB')
-        if 'db' not in g:
-            g.db = db_wrapper.database
-            print('Database is connected')
+
+

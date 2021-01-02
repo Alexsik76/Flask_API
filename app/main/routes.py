@@ -5,6 +5,7 @@ from app.models import Racer
 from app import db_wrapper
 
 
+
 # def get_db(app):
 #     with app.app_context():
 #         if 'db' not in g:
@@ -39,17 +40,17 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    with g.db:
-        for rac in Racer.select():
-            print(rac.name)
-        rows = len(Racer.select())
+    db = db_wrapper.database
+    print('1', db)
+    tables = db.get_tables()
+    print('1', tables)
+    text = f'tables = {tables}'
+    # if rows:
+    #     flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
+    # else:
+    #     flash('Application did not found needed data files.', 'danger')
 
-    if rows:
-        flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
-    else:
-        flash('Application did not found needed data files.', 'danger')
-
-    return render_template('index.html', md_text=html_from_readme())
+    return render_template('index.html', md_text=text)
 
 
 @bp.route('/report/', methods=['GET'])
