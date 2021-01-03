@@ -1,16 +1,12 @@
-from flask import render_template, request, current_app, abort, url_for, flash, g
+from flask import render_template, request, current_app, abort, url_for, flash
 import os
+
+from peewee import Select
+from playhouse.shortcuts import model_to_dict
+
 from app.main import bp
-from app import db_wrapper
+
 from app.models import Racer
-
-
-# @current_app.before_request
-# def get_db():
-#     with current_app.app_context():
-#         db = db_wrapper.database
-#         print('Database is connected')
-
 
 
 def flash_content(app, is_desc) -> tuple:
@@ -23,7 +19,7 @@ def flash_content(app, is_desc) -> tuple:
     sort_order = 'DESC' if is_desc else 'ASC'
     founded = (f'Data sorted by {sort_order}', 'primary')
     not_founded = ('Application did not found needed data files.', 'danger')
-    return founded if app.extensions.get('table').report else not_founded
+    return founded if Racer.select() else not_founded
 
 
 def html_from_readme() -> str:
@@ -31,7 +27,7 @@ def html_from_readme() -> str:
 
     :return: text from file
     """
-    path_to_file = os.path.abspath(os.path.join(__file__, '../../../') + 'README.md')
+    path_to_file = os.path.join(current_app.config['BASE_DIR'], 'README.md')
     with open(path_to_file, encoding='utf8') as file:
         readme_html = file.read()
     return readme_html
@@ -39,21 +35,18 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    db = db_wrapper.database
-    with db:
-        select = Racer.select()
-        rows = f'tables = {len(select)}'
+    select = Racer.select()
+    rows = f'tables = {len(select)}'
     if rows:
         flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
     else:
         flash('Application did not found needed data files.', 'danger')
-
     return render_template('index.html', md_text=html_from_readme())
 
 
 @bp.route('/report/', methods=['GET'])
 def report():
-    data = current_app.extensions.get('table').report
+    data = [model_to_dict(racer, exclude=(Racer.id,)) for racer in Racer.select().order_by(Racer.position)]
     is_desc = (request.args.get('order') or '').lower() == 'desc'
     data = reversed(data) if is_desc else data
     head = current_app.config['FIELDS']

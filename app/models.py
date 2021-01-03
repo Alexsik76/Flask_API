@@ -1,9 +1,7 @@
 from dateutil.parser import parse
 import os
-# from flask import current_app
 from peewee import *
 from app import db_wrapper
-from config import app_config
 
 
 class Racer(db_wrapper.Model):
@@ -102,8 +100,3 @@ def from_files_to_db():
         racer.position = number
         racer.save()
     print('Data stored to the DB')
-    for racer in Racer.select():
-        print(racer.name, racer.abr)
-
-# with app_context
-# from_files_to_db()

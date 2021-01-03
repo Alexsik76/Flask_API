@@ -20,7 +20,6 @@ def create_app(test_config=None):
     else:
         app.config.from_object(app_config['develop'])
 
-
     bootstrap.init_app(app)
     # from app.api import bp as api_bp
     # from app.api.api_report import ApiReport
@@ -34,10 +33,10 @@ def create_app(test_config=None):
     app.register_blueprint(bp)
 
     Markdown(app)
+
     swag.init_app(app)
     db_wrapper.init_app(app)
-    print(db_wrapper.database.get_tables())
-
+    app.db = db_wrapper.database
     return app
 
-from app import models
+# from app import models

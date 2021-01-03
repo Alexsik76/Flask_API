@@ -17,7 +17,7 @@
         </thead>
         <tbody>
         {% for racer in data %}
-            <tr {{ 'class=table-secondary' if racer['Position'] > 15 else '' }}>
+            <tr {{ 'class=table-secondary' if racer.position > 15 else '' }}>
                 {% for item in racer.values() %}
                     <td>{{ item }}</td>
                 {% endfor %}
