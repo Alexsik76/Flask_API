@@ -3,8 +3,9 @@ from app.models import Racer, from_files_to_db
 
 app = create_app()
 
-with app.app_context():
-    if not db_wrapper.database.get_tables():
+if not db_wrapper.database.get_tables():
+    with db_wrapper.database as db:
+        db.create_tables([Racer])
         from_files_to_db()
 
 

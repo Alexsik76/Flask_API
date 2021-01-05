@@ -36,7 +36,9 @@ def create_app(test_config=None):
 
     swag.init_app(app)
     db_wrapper.init_app(app)
-    app.db = db_wrapper.database
+
+
+    print(db_wrapper.database.get_tables())
     return app
 
 # from app import models

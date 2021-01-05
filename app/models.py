@@ -22,22 +22,28 @@ class Racer(db_wrapper.Model):
 
 
 def init_db():
-    Racer.create_table()
-    for racer in get_report():
-        Racer.create(abr=racer['Abbreviation'],
-                     name=racer['Name'],
-                     team=racer['Team'],
-                     start=racer['Start time'],
-                     finish=racer['Finish time'])
+    data = get_report()
+    with db_wrapper.database.atomic():
+        Racer.insert_many(data, fields=[Racer.abr,
+                                        Racer.name,
+                                        Racer.team,
+                                        Racer.start,
+                                        Racer.finish]
+                          ).execute()
+    # for racer in get_report():
+    #     Racer.create(abr=racer['Abbreviation'],
+    #                  name=racer['Name'],
+    #                  team=racer['Team'],
+    #                  start=racer['Start time'],
+    #                  finish=racer['Finish time'])
 
 
 def get_report() -> list:
     needed_files = ('abbreviations.txt', 'start.log', 'end.log')
-    fields = ('Position', 'Abbreviation', 'Name', 'Team', 'Start time', 'Finish time', 'Race time')
     """Creates a time-sorted list of drivers with all the necessary data.
 
     :return: A sorted by time list of dicts.
-    :rtype: list[dict]
+    :rtype: list[tuple[]]
     """
 
     def get_path() -> str:
@@ -74,7 +80,7 @@ def get_report() -> list:
         :param line: A line combined with three tapes of input files.
         :type line: tuple
         :return: A list of data.
-        :rtype: tuple[str, str, str, str, str]
+        :rtype: tuple[str, str, str,datetime, datetime]
         """
         titles, start, finish = line
         abr, name, team = titles.split('_')
@@ -83,9 +89,10 @@ def get_report() -> list:
                 team,
                 parse(start, fuzzy=True),
                 parse(finish, fuzzy=True))
+
     source_racers = zip(*[read_file(file_name) for file_name in needed_files])
-    racers = [dict(zip(fields, (None, *parsing_line(line))))
-              for line in source_racers]
+    racers = [parsing_line(line) for line in source_racers]
+    print(racers)
     return racers
 
 

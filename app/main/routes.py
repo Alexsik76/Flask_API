@@ -3,7 +3,7 @@ import os
 
 from peewee import Select
 from playhouse.shortcuts import model_to_dict
-
+from app import db_wrapper
 from app.main import bp
 
 from app.models import Racer
@@ -35,8 +35,9 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    select = Racer.select()
-    rows = f'tables = {len(select)}'
+    with db_wrapper.database.atomic():
+        select = Racer.select()
+        rows = f'tables = {len(select)}'
     if rows:
         flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
     else:
