@@ -55,9 +55,9 @@ def get_report() -> list:
         return (abr,
                 name,
                 team,
-                start.time(),
-                finish.time(),
-                race_time.time())
+                start,
+                finish,
+                race_time)
 
     source_racers = zip(*[read_file(file_name) for file_name in needed_files])
     racers = sorted([parsing_line(line) for line in source_racers], key=lambda x: x[5])
