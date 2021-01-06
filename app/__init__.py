@@ -35,10 +35,11 @@ def create_app(test_config=None):
     Markdown(app)
 
     swag.init_app(app)
+
     db_wrapper.init_app(app)
-
-
-    print(db_wrapper.database.get_tables())
+    from app.models import init_models
+    init_models()
+    print("App is created")
     return app
 
-# from app import models
+

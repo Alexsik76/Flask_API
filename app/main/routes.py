@@ -1,18 +1,14 @@
 from flask import render_template, request, current_app, abort, url_for, flash
 import os
-
-from peewee import Select
 from playhouse.shortcuts import model_to_dict
-from app import db_wrapper
-from app.main import bp
 
+from app.main import bp
 from app.models import Racer
 
 
-def flash_content(app, is_desc) -> tuple:
+def flash_content(is_desc) -> tuple:
     """Forms params of the flash function.
 
-    :param app: the Flask application or blueprint object
     :param is_desc: boolean format of the sort order
     :return: tuple(text of a flash message, category of the message)
     """
@@ -35,9 +31,9 @@ def html_from_readme() -> str:
 
 @bp.route('/')
 def index():
-    with db_wrapper.database.atomic():
-        select = Racer.select()
-        rows = f'tables = {len(select)}'
+    select = Racer.select()
+    rows = f'tables = {len(select)}'
+    print('len = ', len(select))
     if rows:
         flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
     else:
@@ -47,11 +43,11 @@ def index():
 
 @bp.route('/report/', methods=['GET'])
 def report():
-    data = [model_to_dict(racer, exclude=(Racer.id,)) for racer in Racer.select().order_by(Racer.position)]
+    data = [model_to_dict(racer) for racer in Racer.select().order_by(Racer.id)]
     is_desc = (request.args.get('order') or '').lower() == 'desc'
     data = reversed(data) if is_desc else data
     head = current_app.config['FIELDS']
-    flash(*flash_content(current_app, is_desc))
+    flash(*flash_content(is_desc))
     return render_template('report.html', data=data, head=head, reversed=is_desc), 200
 
 
@@ -66,7 +62,7 @@ def drivers():
                       or abort(404, 'Driver not found')
         return render_template('report.html', data=driver_info, head=head), 200
     else:
-        flash(*flash_content(current_app, is_desc))
+        flash(*flash_content(is_desc))
         drivers_html = reversed(data) if is_desc else data
         return render_template('drivers.html',
                                data=drivers_html, head=('Name', 'Abbreviation'), reversed=is_desc), 200
