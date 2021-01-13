@@ -1,11 +1,10 @@
-from flask import Flask, g
+from flask import Flask
 from config import app_config
 from flask_bootstrap import Bootstrap
 from flask_restful import Api
 from flasgger import Swagger
-from flaskext.markdown import Markdown
 from playhouse.flask_utils import FlaskDB
-
+from flaskext.markdown import Markdown
 
 bootstrap = Bootstrap()
 my_api = Api()
@@ -32,14 +31,11 @@ def create_app(test_config=None):
     from app.main import bp
     app.register_blueprint(bp)
 
-    Markdown(app)
-
     swag.init_app(app)
 
     db_wrapper.init_app(app)
-    from app.models import init_models
-    init_models()
+    from app import db
+    db.init_app(app)
+    Markdown(app, output_format='html4')
     print("App is created")
     return app
-
-

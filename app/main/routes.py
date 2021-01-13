@@ -1,7 +1,6 @@
 from flask import render_template, request, current_app, abort, url_for, flash
 import os
 from playhouse.shortcuts import model_to_dict
-
 from app.main import bp
 from app.models import Racer
 

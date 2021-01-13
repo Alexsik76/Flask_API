@@ -1,5 +1,4 @@
 from peewee import *
-from app.read_files import get_report
 from app import db_wrapper
 
 
@@ -23,20 +22,3 @@ class Racer(db_wrapper.Model):
 
     def __repr__(self):
         return f'<Racer {self.id, self.abr, self.name, self.race_time}>'
-
-
-def init_models():
-    if not Racer.table_exists():
-        print('table_exists 2 => ', Racer.table_exists())
-        with db_wrapper.database.atomic():
-            Racer.create_table()
-            data = get_report()
-            Racer.insert_many(data, fields=[Racer.abr,
-                                            Racer.name,
-                                            Racer.team,
-                                            Racer.start,
-                                            Racer.finish,
-                                            Racer.race_time]
-                              ).execute()
-
-            print('Data stored to the DB')

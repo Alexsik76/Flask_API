@@ -18,13 +18,7 @@ class Config(object):
     BOOTSTRAP_BOOTSWATCH_THEME = 'cosmo'
     # BOOTSTRAP_ICON_SIZE = '1.5em'
     # BOOTSTRAP_ICON_COLOR = 'light'
-    # DATABASE = 'sqlite:///:memory:'
     DATABASE = 'sqlite:///' + path.join(BASE_DIR, 'app.db')
-    # DATABASE = {
-    #     'name': ':memory:',
-    #     'engine': 'peewee.SqliteDatabase',
-    #     'pragmas': {'foreign_keys': 1},
-    # }
     SWAGGER = {'title': 'REST API report of Monaco 2018 Racing',
                'uiversion': 3,
                'openapi': '3.0.2',
