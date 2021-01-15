@@ -52,12 +52,12 @@ def report():
 
 @bp.route('/report/drivers/', methods=['GET'])
 def drivers():
-    data = current_app.extensions.get('table').report
+    data = [model_to_dict(racer, only=(Racer.name, Racer.abr)) for racer in Racer.select().order_by(Racer.id)]
     abr = request.args.get('driver_id') or ''
     is_desc = (request.args.get('order') or '').lower() == 'desc'
     head = current_app.config['FIELDS']
     if abr:
-        driver_info = list(filter(lambda driver: abr == driver['Abbreviation'], data)) \
+        driver_info = [model_to_dict(racer) for racer in Racer.select().where(Racer.abr == abr)] \
                       or abort(404, 'Driver not found')
         return render_template('report.html', data=driver_info, head=head), 200
     else:

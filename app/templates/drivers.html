@@ -18,9 +18,9 @@
         <tbody>
         {% for racer in data %}
             <tr>
-                <td>{{ racer['Name'] }}</td>
+                <td>{{ racer.name }}</td>
                 <td>
-                    {{ render_nav_item('main.drivers', racer['Abbreviation'], driver_id=racer['Abbreviation']) }}
+                    {{ render_nav_item('main.drivers', racer.abr, driver_id=racer.abr) }}
                 </td>
             </tr>
         {% endfor %}
