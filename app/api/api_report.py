@@ -1,6 +1,8 @@
-from flask import jsonify, make_response, current_app
+from flask import jsonify, make_response
 from dicttoxml import dicttoxml
 from flask_restful import Resource, reqparse
+from playhouse.shortcuts import model_to_dict
+from app.models import Racer
 
 
 class ApiReport(Resource):
@@ -9,7 +11,7 @@ class ApiReport(Resource):
         file: ./docs/spec.yml
         """
 
-        data = current_app.extensions.get('table').report
+        data = [model_to_dict(racer) for racer in Racer.select().order_by(Racer.id)]
         if self.get_argument().lower() == 'xml':
             response = make_response(dicttoxml(data))
             response.mimetype = "application/xml"

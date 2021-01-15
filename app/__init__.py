@@ -20,13 +20,13 @@ def create_app(test_config=None):
         app.config.from_object(app_config['develop'])
 
     bootstrap.init_app(app)
-    # from app.api import bp as api_bp
-    # from app.api.api_report import ApiReport
-    #
-    # my_api.add_resource(ApiReport, '/api/v1/report/')
-    # my_api.init_app(api_bp)
-    #
-    # app.register_blueprint(api_bp)
+    from app.api import bp as api_bp
+    from app.api.api_report import ApiReport
+
+    my_api.add_resource(ApiReport, '/api/v1/report/')
+    my_api.init_app(api_bp)
+
+    app.register_blueprint(api_bp)
 
     from app.main import bp
     app.register_blueprint(bp)

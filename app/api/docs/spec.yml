@@ -10,7 +10,7 @@ parameters:
       type: string
       enum: ['JSON', 'XML']
       default: 'JSON'
-    required: false
+    required: true
     description: Name of the format to get.
 definitions:
   Racer:
