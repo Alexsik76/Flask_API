@@ -36,6 +36,7 @@ def create_app(test_config=None):
     db_wrapper.init_app(app)
     from app import db
     db.init_app(app)
+
     Markdown(app, output_format='html4')
     print("App is created")
     return app

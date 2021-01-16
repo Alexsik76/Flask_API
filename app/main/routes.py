@@ -32,7 +32,6 @@ def html_from_readme() -> str:
 def index():
     select = Racer.select()
     rows = f'tables = {len(select)}'
-    print('len = ', len(select))
     if rows:
         flash(f'Database has "{rows}" rows. Application ready to work.', 'primary')
     else:

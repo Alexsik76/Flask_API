@@ -8,12 +8,6 @@ def app():
     return app
 
 
-# @pytest.fixture
-# def client(app):
-#     with app.test_client() as client:
-#         yield client
-#
-#
-# @pytest.fixture
-# def runner(app):
-#     return app.test_cli_runner()
+@pytest.fixture
+def runner(app):
+    return app.test_cli_runner()

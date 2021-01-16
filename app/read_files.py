@@ -61,5 +61,4 @@ def get_report() -> list:
 
     source_racers = zip(*[read_file(file_name) for file_name in needed_files])
     racers = sorted([parsing_line(line) for line in source_racers], key=lambda x: x[5])
-    print(racers)
     return racers

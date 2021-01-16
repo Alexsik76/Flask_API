@@ -1,10 +1,3 @@
-from app import read_files
-
-
-def test_read_files():
-    assert isinstance(read_files.get_report(), list)
-
-
 def test_report(client):
     response = client.get('/report/')
     assert response.status_code == 200
