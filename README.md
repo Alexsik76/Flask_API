@@ -4,24 +4,16 @@ It is an educational project on FoxMinded platform.
 The task was creating a  flask application to REST API using Flask API package 
 and adding swagger using flasgger.
 
-## Improvements
-
-First wasn't removed HTML part of the application.
-API was implemented and made to work together with HTML templates.
-In general was improved User-Friendliness of the app.
-- created function for the automatic search of data-files. It allowed remove DATA_PATH variable from the ```.env``` or ```app.settings```.
-
-- instead of several functions, one class was created, which contains all the logic of working with the source data. In addition, it provides storage of information without the need to generate it for each request.
-    - class initialization logic is borrowed from packages such as ```flask_restful``` and ```flask_bootstrap```. To do this, the ```init_app``` function was created, which is called when creating an instance of the application and fills the class with data.
-
-- added some buttons to the navbar including "Site map" and "API".
-
-- "API" menu contains different variants of imagine API data.
-
-- as an experiment html page with base navbar and Swagger interface was created within, which allowed after use Swagger return to the main page (but it forced to abandon the use of the package Flasgger).
-
 ## Getting Started
+
+The first running of the application consists from 3 steps:
  
+- [preparing](#preparing) the virtual environment and install dependencies;
+- [initialization](#initialization) of the database;
+- [running](#running) the flask application.
+
+### Preparing
+
 This application is created with pipenv usage.
 Also file `.env` was added.
 This file contains variables `FLASK_APP` and `FLASK_ENV`. 
@@ -31,10 +23,7 @@ More information of Shell Variables you can find
 
 So for the starters you need to launch pipenv:
 
-
 `pipenv install`
-
-> In my case I had an error with the package `Flask_Misaka`. The solution was to install in the system ```python-dev``` package.
 
 Next, activate the Pipenv shell:
 
@@ -44,13 +33,23 @@ For the checking Shell Variables use:
 
 `printenv FLASK_APP`
 
-## Usage
+Project also contains the `requirements.txt` file witch help to install dependencies with `pip` usage. 
+So alternatively you can use `pip install -r requirements.txt`.
+
+### Initialization
+
+Before first start of application data about racers are kept in files `abbreviations.txt, aend.log, start.log`.
+To copy them into the database you need to once run command `flask init-db`.
+This command must be run in the virtual environment after installation all the requirements.
+After that in the project folder will create `app.db` file with all data.
+Project not contains the migration mechanism so command launch `flask init-db` again will remove an old database and will create new.
+
+### Running
 
 `flask run`
 
 Open the HTML link in the terminal to get the access to the program.
 On the HTML page you can use following addresses:
-
 
 - [http://localhost:5000/report](http://localhost:5000/report)
 - [http://localhost:5000/report/drivers/](http://localhost:5000/report/drivers/)
@@ -64,7 +63,6 @@ All routes available:
 
 - [http://localhost:5000/site-map](http://localhost:5000/site-map)
 
-
 ## Running the tests
 
 To run the tests you need to install `develop` packages:
@@ -76,4 +74,6 @@ After that to run the tests you must write:
 `pytest`
 
 `coverage run -m pytest`
+
+`covarage report`
  

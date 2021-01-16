@@ -4,12 +4,13 @@ import os
 
 
 def get_report() -> list:
-    needed_files = ('abbreviations.txt', 'start.log', 'end.log')
     """Creates a time-sorted list of drivers with all the necessary data.
 
     :return: A sorted by time list of dicts.
     :rtype: list[tuple[]]
     """
+
+    needed_files = ('abbreviations.txt', 'start.log', 'end.log')
 
     def get_path() -> str:
         """
@@ -47,6 +48,7 @@ def get_report() -> list:
         :return: A list of data.
         :rtype: tuple[str, str, str,datetime, datetime, timedelta]
         """
+
         titles, s_start, s_finish = line
         start = parse(s_start, fuzzy=True)
         finish = parse(s_finish, fuzzy=True)

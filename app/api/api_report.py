@@ -2,6 +2,7 @@ from flask import jsonify, make_response
 from dicttoxml import dicttoxml
 from flask_restful import Resource, reqparse
 from playhouse.shortcuts import model_to_dict
+
 from app.models import Racer
 
 
