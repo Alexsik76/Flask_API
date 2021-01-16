@@ -29,20 +29,20 @@ Next, activate the Pipenv shell:
 
 `pipenv shell`  
 
-For the checking Shell Variables use:
+For checking Shell Variables use:
 
 `printenv FLASK_APP`
 
-Project also contains the `requirements.txt` file witch help to install dependencies with `pip` usage. 
+Project also contains the `requirements.txt` file which helps to install dependencies with `pip` usage. 
 So alternatively you can use `pip install -r requirements.txt`.
 
 ### Initialization
 
-Before first start of application data about racers are kept in files `abbreviations.txt, aend.log, start.log`.
-To copy them into the database you need to once run command `flask init-db`.
-This command must be run in the virtual environment after installation all the requirements.
-After that in the project folder will create `app.db` file with all data.
-Project not contains the migration mechanism so command launch `flask init-db` again will remove an old database and will create new.
+Before first start of application data about racers is kept in files `abbreviations.txt, aend.log, start.log`.
+To copy it into the database you need to once run command `flask init-db`.
+This command must be run in the virtual environment after installation of all the requirements.
+After that in the project folder `app.db` file will be created with all data.
+Project does not contain the migration mechanism so using command launch `flask init-db` again will remove an old database and will create new one.
 
 ### Running
 
