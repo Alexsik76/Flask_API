@@ -1,0 +1,53 @@
+info:
+  title: 'REST API report of Monaco 2018 Racing'
+tags:
+  - report
+description: 'An API to return race table in requested format'
+parameters:
+  - in: query
+    name: format
+    schema:
+      type: string
+      enum: ['JSON', 'XML']
+      default: 'JSON'
+    required: true
+    description: Name of the format to get.
+definitions:
+  Racer:
+    type: object
+    properties:
+      Position:
+        type: integer
+      Abbreviation:
+        type: string
+      Name:
+        type: string
+      Team:
+        type: string
+      Start time:
+        type: string
+      Finish time:
+        type: string
+      Race time:
+        type: string
+    example: { "Position": 1,
+               "Abbreviation": "SVF",
+               "Name": "Sebastian Vettel",
+               "Team": "FERRARI",
+               "Start time": "12:02:58.917",
+               "Finish time": "12:04:03.332",
+               "Race time": "00:01:04.415"}
+  Report:
+    type: array
+    items:
+      $ref: '#/definitions/Racer'
+responses:
+  200:
+    description: Ok
+    content:
+      application/json:
+        schema:
+          $ref: '#/definitions/Report'
+      application/xml:
+        schema:
+          $ref: '#/definitions/Report'

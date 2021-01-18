@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <table class="table table-hover">
+        <thead class="thead-dark class=text-center position-sticky" style="top: 5%">
+        <tr>
+            <th>
+                <a class="text-light" href="{{ url_for('main.drivers') }}?order={{ order }}"
+                   data-toggle="tooltip" title="Sort by {{ order }}">
+                   {{ render_icon(icon) }}
+                </a>
+                {{ head[0] }}
+            </th>
+            {% for item in head[1:] %}
+                <th>{{ item }}</th>
+            {% endfor %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for racer in data %}
+            <tr>
+                <td>{{ racer.name }}</td>
+                <td>
+                    {{ render_nav_item('main.drivers', racer.abr, driver_id=racer.abr) }}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
